@@ -1,6 +1,4 @@
-# -------------------------------
-# 1. Import Required Libraries
-# -------------------------------
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -13,11 +11,8 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
-# -------------------------------
-# 2. Load Dataset
-# -------------------------------
-# Replace file path if needed
-df = pd.read_csv("customer_data.csv")
+
+df = pd.read_csv("customer_data.csv") // load dataset
 
 print("First 5 Rows:")
 print(df.head())
@@ -28,11 +23,7 @@ print(df.info())
 print("\nMissing Values:")
 print(df.isnull().sum())
 
-# -------------------------------
-# 3. Data Preprocessing
-# -------------------------------
-
-# Fill missing values
+// data preprocessing
 df['Age'].fillna(df['Age'].median(), inplace=True)
 df['Annual_Income'].fillna(df['Annual_Income'].median(), inplace=True)
 df['Spending_Score'].fillna(df['Spending_Score'].mean(), inplace=True)
@@ -50,9 +41,7 @@ df['Response'] = le_response.fit_transform(df['Response'])  # Yes=1, No=0
 print("\nCleaned Data:")
 print(df.head())
 
-# -------------------------------
-# 4. Exploratory Data Analysis
-# -------------------------------
+
 
 # Customer Age Distribution
 plt.figure(figsize=(8,5))
@@ -72,10 +61,7 @@ sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm')
 plt.title("Correlation Heatmap")
 plt.show()
 
-# -------------------------------
-# 5. Predictive Model - Linear Regression
-# Predict Engagement Score
-# -------------------------------
+
 X = df[['Age', 'Annual_Income', 'Purchase_Frequency']]
 y = df['Spending_Score']
 
@@ -91,10 +77,7 @@ print("MAE:", mean_absolute_error(y_test, y_pred))
 print("MSE:", mean_squared_error(y_test, y_pred))
 print("R2 Score:", r2_score(y_test, y_pred))
 
-# -------------------------------
-# 6. Predictive Model - Logistic Regression
-# Predict Customer Response
-# -------------------------------
+
 X_cls = df[['Age', 'Annual_Income', 'Purchase_Frequency', 'Spending_Score']]
 y_cls = df['Response']
 
@@ -112,9 +95,7 @@ print(confusion_matrix(y_test_c, y_pred_c))
 print("\nClassification Report:")
 print(classification_report(y_test_c, y_pred_c))
 
-# -------------------------------
-# 7. Customer Segmentation - KMeans
-# -------------------------------
+
 seg = df[['Annual_Income', 'Spending_Score']]
 
 scaler = StandardScaler()
@@ -128,9 +109,7 @@ sns.scatterplot(x='Annual_Income', y='Spending_Score', hue='Cluster', palette='S
 plt.title("Customer Segmentation using K-Means")
 plt.show()
 
-# -------------------------------
-# 8. Dashboard Ready Outputs
-# -------------------------------
+
 print("\n--- Dashboard Metrics ---")
 print("Total Customers:", len(df))
 print("Average Income:", df['Annual_Income'].mean())
